@@ -1,0 +1,172 @@
+{% extends 'master/base.html' %}
+
+{% load static %}
+
+{% block title %} 
+    {{ post.title }}
+ {% endblock %}
+
+  {% block content%}
+<div class="container">
+    <br>
+    <div class="row">
+
+        <div class="col-md-8" style="background:white;">
+
+
+            <h1 class="blog-title">
+                {{ post.title }}
+            </h1>
+            {% if request.user.is_superuser %}
+            <a href="/admin/auth/site-control/master/blog/{{ post.id }}/change/">Edit</a>
+            <a href="/admin/auth/site-control/master/blog/{{ post.id }}/delete">Delete</a>
+
+            {% endif %}
+            <i class="text-muted">
+                <strong>Posted : {{ post.date | timesince }} ago by
+                    <span style="color:coral;"> {{ post.author }} </span>
+                    <br> Viewed: {{ post.views }} times.
+                </strong>
+            </i>
+            <br>
+
+
+            <!-- share links -->
+
+            <div class="footer-social-icons">
+                <ul class="social-icons">
+                    <li>
+                        <a href="http://www.facebook.com/sharer/sharer.php?u=http://bibekbhandari.herokuapp.com{{ request.get_full_path|urlencode }}"
+                            class="social-icon" target="_blank">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/home?status=https://bibekbhandari.heokuapp.com{{ request.get_full_path|urlencode }}" class="social-icon"
+                            target="_blank">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://plus.google.com/share?url=http://bibekbhandari.herokuapp.com{{ request.get_full_path|urlencode }}" class="social-icon"
+                            target="_blank">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- end share -->
+            <br>
+            <br>
+            <!-- image of the post -->
+            <div class="text-center">
+                <img class="img-fluid" src="{{ post.image }}" alt="{{ post.title }}" width="100%">
+            </div>
+            <p class="override-desc">{{ post.description | safe |linebreaks }}</p>
+
+            <!-- share -->
+            <div class="footer-social-icons">
+                <ul class="social-icons">
+                    <li>
+                        <a href="http://www.facebook.com/sharer/sharer.php?u=http://bibekbhandari.herokuapp.com{{ request.get_full_path|urlencode }}"
+                            class="social-icon" target="_blank">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/home?status=https://bibekbhandari.heokuapp.com{{ request.get_full_path|urlencode }}" class="social-icon"
+                            target="_blank">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://plus.google.com/share?url=http://bibekbhandari.herokuapp.com{{ request.get_full_path|urlencode }}" class="social-icon"
+                            target="_blank">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div   id="full-row">
+            <div class="box-header">
+                <h4>Read Next</h4>
+            </div>
+            <br> 
+            {% if recommended %} {% for s in recommended %}
+            <div class="row">
+                <div class="col-md-4">
+                   <a href="{% url 'master:details' s.slug %}"> <img class="img-fluid" src="{{ s.image }}" alt="" id="imga"> </a>
+                </div>
+                <div class="col-md-8">
+                        <a href="{% url 'master:details' s.slug %}" id="subtitle"><strong>{{ s.title }}</strong></a>
+                </div>
+            </div>
+            <br> 
+            {% endfor %} {% else %}
+            <i>No Similar Posts</i>
+            {% endif %}
+            <!-- news letter -->
+        </div>
+            <br>
+            <br>
+            <div class="newsletter" style="background:white; padding:8px;">
+                <div class="box-header">
+                    Signup For Newsletter
+                </div>
+                <form action="" method="get">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <br>
+                        <label for="lab">Full Name</label>
+                        <input type="text" class="form-control" name="name">
+
+                        <label for="lab">Email</label>
+                        <input type="email" class="form-control" name="email">
+                        <br>
+                        <div class="text-right">
+                            <input type="submit" class="btn btn-md btn-danger" value="Submit">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <h1>Comments</h1>
+
+    <div class="row">
+        <div class="col-md-8">
+
+
+            <!-- disqus comment -->
+            <div class="container" id="disqus_thread"></div>
+            <script>
+
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function () { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://https-bibekbhandari-herokuapp-com.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the
+                <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+            </noscript>
+
+            <!-- end of disqus -->
+        </div>
+    </div>
+</div>
+<script id="dsq-count-scr" src="//https-bibekbhandari-herokuapp-com.disqus.com/count.js" async></script> {% endblock %}

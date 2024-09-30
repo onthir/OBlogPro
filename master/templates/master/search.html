@@ -1,0 +1,78 @@
+{% extends 'master/base.html' %}
+ 
+{% block title %} 
+    Search Results : '{{ query }}' 
+{% endblock %}
+ 
+ {% block content %}
+<div class="container-fluid">
+    <div class="row">
+
+
+        <div class="col-md-8 col-sm-12">
+            <h1>Search Results : '{{ query }}'</h1>
+
+            <i>Found {{ ct }} {% if ct == 1 %} result. {% else %} results. {% endif %}</i>
+            {% for a in blogs %}
+            <div class="posts">
+
+                <div class="actual-post">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="small-box">
+                                {{ a.category }}
+                            </div>
+                            <a href="{% url 'master:details' slug=a.slug %}" id="title">{{ a.title }}</a>
+                            <br>
+                            <p>{{ a.description |safe |truncatechars:150 }}
+                                <a href="{% url 'master:details' slug=a.slug %}">Read More.</a>
+                            </p>
+                            <br>
+                            <i class="text-muted">
+                                <strong>Posted : {{ a.date | timesince }} ago by
+                                    <span style="color:coral;"> {{ a.author }} </span>
+                                </strong>
+                            </i>
+                        </div>
+                        <div class="col-md-4">
+                            <img class="img-fluid" src="{{ a.image }}" alt="{{ a.title }}" id="imga">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <hr>
+            {% endfor %}
+        </div>
+        <!-- column for newsletter -->
+        <div class="col-md-4">
+            <br>
+            <br>
+            <br>
+            <!-- newsletter -->
+            <div class="newsletter" style="background:white; padding:8px;">
+                <div class="box-header">
+                    Signup For Newsletter
+                </div>
+                <form action="" method="get">
+                    {% csrf_token %}
+                <div class="form-group">
+                    <br>
+                        <label for="lab">Full Name</label>
+                        <input type="text" class="form-control" name="name">
+                        
+                        <label for="lab">Email</label>
+                        <input type="email" class="form-control" name="email">
+                        <br>
+                        <div class="text-right">
+                            <input type="submit" class="btn btn-md btn-danger" value="Submit">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end newsletter -->
+        </div>
+        <!-- end column for newsletter -->
+    </div>
+</div>
+{% endblock %}

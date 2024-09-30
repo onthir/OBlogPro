@@ -1,0 +1,120 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        {% block title %} Home {% endblock %} | Bibek Bhandari
+    </title>
+
+    <!-- bootstrap cdn -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <!-- ckeditor css hilighter.js -->
+    <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <!-- custom css -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Francois+One|Signika:700" rel="stylesheet">
+</head>
+<script>hljs.initHighlightingOnLoad();</script>
+<body>
+    <!-- header -->
+    <div class="container">
+        <header class="blog-header py-3">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="text-left" id="myname">
+                        <a id="brand" href="{% url 'master:home' %}">Bibek
+                            <span style="color:coral;">Bhandari</span>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    <form action="{% url 'master:home' %}" method="get">
+                        <input class="form-control" type="text" id="search" placeholder="Search blogs, topics." name="q">
+                    </form>
+                </div>
+                <div class="col-md-3">
+                    <div class="footer-social-icons">
+                        <ul class="social-icons">
+                            <li><a href="https://www.facebook.com/whysoserious13" class="social-icon" target="_blank"> <i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://twitter.com/onthir13" class="social-icon" target="_blank"> <i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://www.youtube.com/onthir" class="social-icon" target="_blank"> <i class="fa fa-youtube"></i></a></li>
+                            <li><a href="https://www.linkedin.com/in/bibek-bhandari-419470137/" class="social-icon" target="_blank"> <i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="https://plus.google.com/113475651357673842065" class="social-icon" target="_blank"> <i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+    </div>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExample04">
+            <ul class="navbar-nav mr-auto" id="navitems">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'master:home' %}">Home</a>
+                </li>
+                {% for c in categories %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'master:filter' c.cat %}" id="navitems">{{ c.cat }}</a>
+                </li>
+                {% endfor %}
+                <li class="nav-item">
+                    <a href="https://onthir.github.io/" class="nav-link" target="_blank">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'master:contact' %}" class="nav-link">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                        <a href="{% url 'download:home' %}" class="nav-link">Downloads</a>
+                    </li>
+                {% if request.user.is_superuser %}
+                <li class="nav-item">
+                    <a href="/admin/auth/site-control/master/blog/add/" class="nav-link">Add Blog</a>
+                </li>
+                <li class="nav-item">
+                        <a href="{% url 'master:panel' %}" class="nav-link">Panel {% if notf > 0 %} <span style="color:red;">({{ notf }})</span> {% endif %} </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    {% block content %} {% endblock %}
+    <!-- footer -->
+    <footer >
+        <div class=" text-center text-muted">
+            &copy; Copyright 2018, Bibek Bhandari. All Rights Reserved.
+        </div>
+    </footer>
+    <!--jquery, popperjs and then javascript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

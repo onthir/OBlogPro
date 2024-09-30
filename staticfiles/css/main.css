@@ -1,0 +1,8 @@
+#navitems li a:hover{
+    background: white;
+    color: black;
+}
+
+body{
+    background: red;
+}

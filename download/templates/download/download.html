@@ -1,0 +1,27 @@
+{% extends 'master/base.html' %}
+{% block title %}
+    Downloads
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <h2>Free Downloads</h2>
+        <div class="row">
+            {% for d in downloads %}
+                <div class="my-card">
+                    <div class="col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="{{ d.main_image }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-weight: bolder;">{{ d.name }} -
+                                    <i>{{ d.version }}</i></h5>
+                                <i style="font-weight: bolder;">{{ d.category }}</i>
+                                <p class="card-text">{{ d.description|truncatechars:80 }}</p>
+                                <a href="{% url 'download:details' d.id %}" class="btn btn-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
